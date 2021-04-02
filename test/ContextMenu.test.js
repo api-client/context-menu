@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { html, fixture, assert, nextFrame } from '@open-wc/testing';
+import { html, fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
+import sinon from 'sinon';
 import { ContextMenu } from '../index.js';
 
 const commands = [
@@ -407,6 +408,153 @@ describe('ContextMenu', () => {
         key: 'Escape',
       }));
       assert.isUndefined(menu.currentMenu);
+    });
+  });
+
+  describe('nested commands', () => {
+    const nested = [
+      {
+        target: 'root',
+        label: 'Font size',
+        id: 'font-size',
+        children: [
+          {
+            label: '0.75 rem',
+            id: '0.75rem',
+          },
+          {
+            label: '1 rem',
+            id: '1rem',
+          },
+          {
+            label: '1.25 rem',
+            id: '1.25rem',
+          },
+          {
+            label: '1.5 rem',
+            id: '1.5rem',
+          },
+          {
+            label: '2 rem',
+            id: '2rem',
+          },
+        ],
+      },
+    ];
+
+    let workspace = /** @type HTMLDivElement */ (null);
+    let menu = /** @type ContextMenu */ (null);
+    beforeEach(async () => {
+      workspace = await fixture(html`<div><span></span></div>`);
+      menu = new ContextMenu(workspace);
+      menu.registerCommands(nested);
+      menu.connect();
+    });
+
+    it('processes child commands', () => {
+      const [childItem] = menu.commands[0].children;
+      assert.equal(childItem.constructor.name, 'MenuItem');
+    });
+
+    it('dispatches the "execute" event when no "execute" function in the commands chain', async () => {
+      const spy = sinon.spy();
+      menu.addEventListener('execute', spy);
+      workspace.dispatchEvent(new MouseEvent('contextmenu', {
+        clientX: 1,
+        clientY: 1,
+      }));
+      await nextFrame();
+
+      const item = /** @type HTMLElement */ (menu.currentMenu.shadowRoot.querySelector(`anypoint-icon-item[data-cmd="font-size"]`));
+      menu.currentMenu.subMenuTimeout = 1;
+      item.dispatchEvent(new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        clientX: 0,
+        clientY: 0,
+      }));
+      // for the menu debouncer
+      await aTimeout(1);
+      // for the menu to render
+      await nextFrame();
+      const sub = menu.currentMenu.shadowRoot.querySelector('context-menu');
+      const subItem = sub.shadowRoot.querySelector(`anypoint-icon-item`);
+      subItem.click();
+      assert.isTrue(spy.calledOnce, 'The event is dispatched');
+      const { detail } = spy.args[0][0];
+      assert.equal(detail.id, '0.75rem', 'has the id');
+      assert.isTrue(detail.store === menu.store, 'has the store');
+      assert.isTrue(detail.target === workspace, 'has the target');
+      assert.isTrue(detail.root === workspace, 'has the root');
+      assert.deepEqual(detail.clickPoint, { x: 1, y: 1 }, 'has the clickPoint');
+      assert.equal(detail.selectedSubcommand, 0, 'has the selectedSubcommand');
+      assert.isTrue(detail.item === sub.commands[0] , 'has the item');
+    });
+
+    it('executes parent item "execute" function', async () => {
+      let called = false;
+      let context = {};
+      menu.commands[0].execute = (ctx) => {
+        called = true;
+        context = ctx;
+      };
+      workspace.dispatchEvent(new MouseEvent('contextmenu', {
+        clientX: 1,
+        clientY: 1,
+      }));
+      await nextFrame();
+
+      const item = /** @type HTMLElement */ (menu.currentMenu.shadowRoot.querySelector(`anypoint-icon-item[data-cmd="font-size"]`));
+      menu.currentMenu.subMenuTimeout = 1;
+      item.dispatchEvent(new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        clientX: 0,
+        clientY: 0,
+      }));
+      // for the menu debouncer
+      await aTimeout(1);
+      // for the menu to render
+      await nextFrame();
+      const sub = menu.currentMenu.shadowRoot.querySelector('context-menu');
+      const subItem = sub.shadowRoot.querySelector(`anypoint-icon-item`);
+      subItem.click();
+      assert.isTrue(called, 'The function was called');
+      assert.equal(context.id, 'font-size', 'has the id');
+      assert.isTrue(context.store === menu.store, 'has the store');
+      assert.isTrue(context.target === workspace, 'has the target');
+      assert.isTrue(context.root === workspace, 'has the root');
+      assert.deepEqual(context.clickPoint, { x: 1, y: 1 }, 'has the clickPoint');
+      assert.equal(context.selectedSubcommand, 0, 'has the selectedSubcommand');
+      assert.isTrue(context.item === sub.commands[0] , 'has the item');
+    });
+  });
+
+  describe('the "execute" event', () => {
+    let workspace = /** @type HTMLDivElement */ (null);
+    let menu = /** @type ContextMenu */ (null);
+    beforeEach(async () => {
+      workspace = await fixture(html`<div></div>`);
+      menu = new ContextMenu(workspace);
+      menu.connect();
+    });
+
+    it('dispatches the event when no execute function', async () => {
+      const spy = sinon.spy();
+      menu.addEventListener('execute', spy);
+      // @ts-ignore
+      menu.registerCommands([ { label: 'test', target: 'all' } ]);
+      workspace.dispatchEvent(new MouseEvent('contextmenu', {
+        clientX: 1,
+        clientY: 1,
+      }));
+      await nextFrame();
+      const instance = menu.currentMenu;
+      const item = instance.shadowRoot.querySelector('anypoint-icon-item');
+      item.click();
+      assert.isTrue(spy.called, 'the event is dispatched');
     });
   });
 });
