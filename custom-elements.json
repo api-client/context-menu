@@ -1,0 +1,356 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "context-menu",
+      "path": "./context-menu.js",
+      "attributes": [
+        {
+          "name": "subMenuTimeout",
+          "description": "The timeout after which the sub menu become visible or is removed from the menu.",
+          "type": "number"
+        },
+        {
+          "name": "parentCommand",
+          "description": "The id of the parent command, in case when this menu is a sub-menu.",
+          "type": "string"
+        },
+        {
+          "name": "opened",
+          "description": "True if the overlay is currently displayed.",
+          "type": "boolean"
+        },
+        {
+          "name": "withBackdrop",
+          "description": "Set to true to display a backdrop behind the overlay. It traps the focus\nwithin the light DOM of the overlay.",
+          "type": "boolean"
+        },
+        {
+          "name": "noAutoFocus",
+          "description": "Set to true to disable auto-focusing the overlay or child nodes with\nthe `autofocus` attribute` when the overlay is opened.",
+          "type": "boolean"
+        },
+        {
+          "name": "noCancelOnEscKey",
+          "description": "Set to true to disable canceling the overlay with the ESC key.",
+          "type": "boolean"
+        },
+        {
+          "name": "noCancelOnOutsideClick",
+          "description": "Set to true to disable canceling the overlay by clicking outside it.",
+          "type": "boolean"
+        },
+        {
+          "name": "restoreFocusOnClose",
+          "description": "Set to true to enable restoring of focus when overlay is closed.",
+          "type": "boolean"
+        },
+        {
+          "name": "allowClickThrough",
+          "description": "Set to true to allow clicks to go through overlays.\nWhen the user clicks outside this overlay, the click may\nclose the overlay below.",
+          "type": "boolean"
+        },
+        {
+          "name": "alwaysOnTop",
+          "description": "Set to true to keep overlay always on top.",
+          "type": "boolean"
+        },
+        {
+          "name": "scrollAction",
+          "description": "Determines which action to perform when scroll outside an opened overlay\nhappens. Possible values: lock - blocks scrolling from happening, refit -\ncomputes the new position on the overlay cancel - causes the overlay to\nclose",
+          "type": "string"
+        },
+        {
+          "name": "noOverlap",
+          "description": "Will position the element around the positionTarget without overlapping\nit.",
+          "type": "boolean"
+        },
+        {
+          "name": "horizontalAlign",
+          "description": "The orientation against which to align the element horizontally\nrelative to the `positionTarget`. Possible values are \"left\", \"right\",\n\"center\", \"auto\".",
+          "type": "string"
+        },
+        {
+          "name": "verticalAlign",
+          "description": "The orientation against which to align the element vertically\nrelative to the `positionTarget`. Possible values are \"top\", \"bottom\",\n\"middle\", \"auto\".",
+          "type": "string"
+        },
+        {
+          "name": "dynamicAlign",
+          "description": "If true, it will use `horizontalAlign` and `verticalAlign` values as\npreferred alignment and if there's not enough space, it will pick the\nvalues which minimize the cropping.",
+          "type": "boolean"
+        },
+        {
+          "name": "horizontalOffset",
+          "description": "A pixel value that will be added to the position calculated for the\ngiven `horizontalAlign`, in the direction of alignment. You can think\nof it as increasing or decreasing the distance to the side of the\nscreen given by `horizontalAlign`.\n\nIf `horizontalAlign` is \"left\" or \"center\", this offset will increase or\ndecrease the distance to the left side of the screen: a negative offset\nwill move the dropdown to the left; a positive one, to the right.\n\nConversely if `horizontalAlign` is \"right\", this offset will increase\nor decrease the distance to the right side of the screen: a negative\noffset will move the dropdown to the right; a positive one, to the left.",
+          "type": "number"
+        },
+        {
+          "name": "verticalOffset",
+          "description": "A pixel value that will be added to the position calculated for the\ngiven `verticalAlign`, in the direction of alignment. You can think\nof it as increasing or decreasing the distance to the side of the\nscreen given by `verticalAlign`.\n\nIf `verticalAlign` is \"top\" or \"middle\", this offset will increase or\ndecrease the distance to the top side of the screen: a negative offset\nwill move the dropdown upwards; a positive one, downwards.\n\nConversely if `verticalAlign` is \"bottom\", this offset will increase\nor decrease the distance to the bottom side of the screen: a negative\noffset will move the dropdown downwards; a positive one, upwards.",
+          "type": "number"
+        },
+        {
+          "name": "autoFitOnAttach",
+          "description": "Set to true to auto-fit on attach.",
+          "type": "boolean"
+        },
+        {
+          "name": "fitPositionTarget",
+          "description": "When set it fits the positioning target width.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "commands",
+          "description": "The list of commands to render.",
+          "type": "MenuItem[]"
+        },
+        {
+          "name": "store",
+          "description": "The commands store.",
+          "type": "Map<string, any>"
+        },
+        {
+          "name": "target",
+          "description": "The menu triggering click target",
+          "type": "HTMLElement | SVGElement"
+        },
+        {
+          "name": "workspace",
+          "description": "The current workspace",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "customData",
+          "description": "Any arbitrary data to pass to the lifecycle functions.",
+          "type": "unknown"
+        },
+        {
+          "name": "subMenuTimeout",
+          "attribute": "subMenuTimeout",
+          "description": "The timeout after which the sub menu become visible or is removed from the menu.",
+          "type": "number"
+        },
+        {
+          "name": "parentCommand",
+          "attribute": "parentCommand",
+          "description": "The id of the parent command, in case when this menu is a sub-menu.",
+          "type": "string"
+        },
+        {
+          "name": "opened",
+          "attribute": "opened",
+          "description": "True if the overlay is currently displayed.",
+          "type": "boolean"
+        },
+        {
+          "name": "withBackdrop",
+          "attribute": "withBackdrop",
+          "description": "Set to true to display a backdrop behind the overlay. It traps the focus\nwithin the light DOM of the overlay.",
+          "type": "boolean"
+        },
+        {
+          "name": "noAutoFocus",
+          "attribute": "noAutoFocus",
+          "description": "Set to true to disable auto-focusing the overlay or child nodes with\nthe `autofocus` attribute` when the overlay is opened.",
+          "type": "boolean"
+        },
+        {
+          "name": "noCancelOnEscKey",
+          "attribute": "noCancelOnEscKey",
+          "description": "Set to true to disable canceling the overlay with the ESC key.",
+          "type": "boolean"
+        },
+        {
+          "name": "noCancelOnOutsideClick",
+          "attribute": "noCancelOnOutsideClick",
+          "description": "Set to true to disable canceling the overlay by clicking outside it.",
+          "type": "boolean"
+        },
+        {
+          "name": "closingReason",
+          "description": "Contains the reason(s) this overlay was last closed (see\n`overlay-closed`). `ArcOverlayMixin` provides the `canceled`\nreason; implementers of the behavior can provide other reasons in\naddition to `canceled`.",
+          "type": "{ type: Object; }"
+        },
+        {
+          "name": "restoreFocusOnClose",
+          "attribute": "restoreFocusOnClose",
+          "description": "Set to true to enable restoring of focus when overlay is closed.",
+          "type": "boolean"
+        },
+        {
+          "name": "allowClickThrough",
+          "attribute": "allowClickThrough",
+          "description": "Set to true to allow clicks to go through overlays.\nWhen the user clicks outside this overlay, the click may\nclose the overlay below.",
+          "type": "boolean"
+        },
+        {
+          "name": "alwaysOnTop",
+          "attribute": "alwaysOnTop",
+          "description": "Set to true to keep overlay always on top.",
+          "type": "boolean"
+        },
+        {
+          "name": "scrollAction",
+          "attribute": "scrollAction",
+          "description": "Determines which action to perform when scroll outside an opened overlay\nhappens. Possible values: lock - blocks scrolling from happening, refit -\ncomputes the new position on the overlay cancel - causes the overlay to\nclose",
+          "type": "string"
+        },
+        {
+          "name": "canceled",
+          "type": "boolean"
+        },
+        {
+          "name": "isAttached",
+          "type": "boolean"
+        },
+        {
+          "name": "backdropElement",
+          "type": "ArcOverlayBackdrop"
+        },
+        {
+          "name": "onopenedchanged",
+          "type": "EventListener | null"
+        },
+        {
+          "name": "onoverlaycanceled",
+          "type": "EventListener | null"
+        },
+        {
+          "name": "onoverlayopened",
+          "type": "EventListener | null"
+        },
+        {
+          "name": "onoverlayclosed",
+          "type": "EventListener | null"
+        },
+        {
+          "name": "onopened",
+          "type": "EventListener | null"
+        },
+        {
+          "name": "onclosed",
+          "type": "EventListener | null"
+        },
+        {
+          "name": "sizingTarget",
+          "description": "The element that will receive a `max-height`/`width`. By default it is\nthe same as `this`, but it can be set to a child element. This is useful,\nfor example, for implementing a scrolling region inside the element.",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "fitInto",
+          "description": "The element to fit `this` into.",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "noOverlap",
+          "attribute": "noOverlap",
+          "description": "Will position the element around the positionTarget without overlapping\nit.",
+          "type": "boolean"
+        },
+        {
+          "name": "positionTarget",
+          "description": "The element that should be used to position the element. If not set, it\nwill default to the parent node.",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "horizontalAlign",
+          "attribute": "horizontalAlign",
+          "description": "The orientation against which to align the element horizontally\nrelative to the `positionTarget`. Possible values are \"left\", \"right\",\n\"center\", \"auto\".",
+          "type": "string"
+        },
+        {
+          "name": "verticalAlign",
+          "attribute": "verticalAlign",
+          "description": "The orientation against which to align the element vertically\nrelative to the `positionTarget`. Possible values are \"top\", \"bottom\",\n\"middle\", \"auto\".",
+          "type": "string"
+        },
+        {
+          "name": "dynamicAlign",
+          "attribute": "dynamicAlign",
+          "description": "If true, it will use `horizontalAlign` and `verticalAlign` values as\npreferred alignment and if there's not enough space, it will pick the\nvalues which minimize the cropping.",
+          "type": "boolean"
+        },
+        {
+          "name": "horizontalOffset",
+          "attribute": "horizontalOffset",
+          "description": "A pixel value that will be added to the position calculated for the\ngiven `horizontalAlign`, in the direction of alignment. You can think\nof it as increasing or decreasing the distance to the side of the\nscreen given by `horizontalAlign`.\n\nIf `horizontalAlign` is \"left\" or \"center\", this offset will increase or\ndecrease the distance to the left side of the screen: a negative offset\nwill move the dropdown to the left; a positive one, to the right.\n\nConversely if `horizontalAlign` is \"right\", this offset will increase\nor decrease the distance to the right side of the screen: a negative\noffset will move the dropdown to the right; a positive one, to the left.",
+          "type": "number"
+        },
+        {
+          "name": "verticalOffset",
+          "attribute": "verticalOffset",
+          "description": "A pixel value that will be added to the position calculated for the\ngiven `verticalAlign`, in the direction of alignment. You can think\nof it as increasing or decreasing the distance to the side of the\nscreen given by `verticalAlign`.\n\nIf `verticalAlign` is \"top\" or \"middle\", this offset will increase or\ndecrease the distance to the top side of the screen: a negative offset\nwill move the dropdown upwards; a positive one, downwards.\n\nConversely if `verticalAlign` is \"bottom\", this offset will increase\nor decrease the distance to the bottom side of the screen: a negative\noffset will move the dropdown downwards; a positive one, upwards.",
+          "type": "number"
+        },
+        {
+          "name": "autoFitOnAttach",
+          "attribute": "autoFitOnAttach",
+          "description": "Set to true to auto-fit on attach.",
+          "type": "boolean"
+        },
+        {
+          "name": "fitPositionTarget",
+          "attribute": "fitPositionTarget",
+          "description": "When set it fits the positioning target width.",
+          "type": "boolean"
+        }
+      ],
+      "events": [
+        {
+          "name": "trigger"
+        },
+        {
+          "name": "resize",
+          "description": "Dispatched when the element should re-layout itself."
+        },
+        {
+          "name": "opened",
+          "description": "Dispatched after the element is rendered opened"
+        },
+        {
+          "name": "closed",
+          "description": "Dispatched after the element is rendered closed"
+        },
+        {
+          "name": "cancel",
+          "description": "Dispatched when element is about to be closed. Cancelling the event stops the closing."
+        },
+        {
+          "name": "openedchange",
+          "description": "When the `opened` property changed."
+        },
+        {
+          "name": "overlay-canceled",
+          "description": "Deprecated"
+        },
+        {
+          "name": "iron-overlay-canceled",
+          "description": "Deprecated"
+        },
+        {
+          "name": "overlay-opened",
+          "description": "Deprecated"
+        },
+        {
+          "name": "iron-overlay-opened",
+          "description": "Deprecated"
+        },
+        {
+          "name": "overlay-closed",
+          "description": "Deprecated"
+        },
+        {
+          "name": "iron-overlay-closed",
+          "description": "Deprecated"
+        },
+        {
+          "name": "opened-changed",
+          "description": "Deprecated"
+        }
+      ]
+    }
+  ]
+}

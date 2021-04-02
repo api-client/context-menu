@@ -1,0 +1,13 @@
+import { svg } from 'lit-html';
+
+/** @typedef {import('lit-html').SVGTemplateResult} SVGTemplateResult */
+
+/**
+ * Wraps icon into an SVG container.
+ * @param {SVGTemplateResult} tpl Icon definition
+ * @param {number=} width The icon view box width
+ * @param {number=} height The icon view box height
+ * @return {SVGTemplateResult} Complete SVG icon definition
+ */
+export const iconWrapper = (tpl, width=24, height=24) => svg`<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" focusable="false" class="svg-wrapper">${tpl}</svg>`;
+export const arrowRight = iconWrapper(svg`<path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 17l5-5-5-5v10z"/>`);
