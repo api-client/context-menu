@@ -1,14 +1,13 @@
 /* eslint-disable class-methods-use-this */
 import '../context-menu.js';
 import { MenuItem } from './MenuItem.js';
+import { genId } from './IdGenerator.js';
 
 /** @typedef {import('./types').ContextMenuCommand} ContextMenuCommand */
 /** @typedef {import('./types').TriggerInfo} TriggerInfo */
 /** @typedef {import('./types').CustomMenuEventDetail} CustomMenuEventDetail */
 /** @typedef {import('./types').CommandBase} CommandBase */
 /** @typedef {import('./types').Point} Point */
-
-let index = 0;
 
 export const contextHandler = Symbol('contextHandler');
 export const clickHandler = Symbol('clickHandler');
@@ -260,10 +259,10 @@ export class ContextMenu extends EventTarget {
   [normalizeMenuItem](item) {
     const cp = { ...item };
     if (!cp.id) {
-      index += 1;
-      cp.id = `${index}`;
+      cp.id = genId();
     }
     if (Array.isArray(cp.children) && cp.children.length) {
+      // @ts-ignore
       cp.children = this[prepareCommands](cp.children);
     } else if (cp.children) {
       cp.children = undefined;

@@ -116,18 +116,19 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
    */
   [selectedHandler](e) {
     const list = /** @type AnypointListbox */ (e.target);
-    const { selectedItem, selected } = list;
+    const { selectedItem } = list;
     if (!selectedItem) {
       return;
     }
     const id = selectedItem.dataset.cmd;
-    const cmd = this.commands.find((item) => item.id === id);
+    const index = this.commands.findIndex((item) => item.id === id);
+    const cmd = this.commands[index];
     if (cmd.hasChildren) {
       this[buildNested](id);
     } else {
       const detail = {
         command: cmd,
-        item: selected,
+        item: index,
       };
       this.dispatchEvent(new CustomEvent('trigger', {
         detail,
@@ -377,7 +378,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
       hidden: !visible,
     };
     return html`
-    <div class="${classMap(classes)}"></div>
+    <div class="${classMap(classes)}" data-cmd="${item.id}"></div>
     `;
   }
 
@@ -407,7 +408,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
       role="menuitem"
     >
       ${this[menuEntryIconTemplate](icon)}
-      <span>${label}</span>
+      <span class="menu-label">${label}</span>
       ${hasChildren ? this[childrenIconTemplate]() : ''}
     </anypoint-icon-item>
     `;

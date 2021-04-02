@@ -1,4 +1,6 @@
 /* eslint-disable class-methods-use-this */
+import { genId } from './IdGenerator.js';
+
 /** @typedef {import('./types').CommandBase} CommandBase */
 /** @typedef {import('./types').ContextMenuCommand} ContextMenuCommand */
 /** @typedef {import('./types').Point} Point */
@@ -11,7 +13,7 @@ export class MenuItem {
    * @param {CommandBase} init
    */
   constructor(init) {
-    const { type='normal', target, visible, id } = init;
+    const { type='normal', target, visible=true, id=genId() } = init;
     this.type = type;
     this.target = target;
     this.visible = visible;
