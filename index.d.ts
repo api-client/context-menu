@@ -10,3 +10,4 @@ export {
   Point,
 } from './src/types';
 export { iconWrapper } from './src/Icons';
+export { MenuElementStyles } from './src/styles/MenuElementStyles';
