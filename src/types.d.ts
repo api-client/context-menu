@@ -79,9 +79,10 @@ export declare interface CommandBase {
    */
   id?: string;
   /**
-   * The type of the command. By default the command is `normal`
+   * The type of the command. By default the command is `normal`. `separator` draws a line between menu items.
+   * The `label` renders a title over other list items.
    */
-  type?: 'normal' | 'separator';
+  type?: 'normal' | 'separator' | 'label';
   /**
    * The target object that activates this item.
    * The `ContextMenu` class uses `findTarget(mouseEvent)` to find the event target and `elementToTarget(targetElement)`

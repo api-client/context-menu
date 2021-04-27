@@ -240,6 +240,7 @@ export class ContextMenu extends EventTarget {
       const { type='normal' } = item;
       switch (type) {
         case 'separator': result.push(new MenuItem(item)); break;
+        case 'label': result.push(new MenuItem(item)); break;
         case 'normal':
           {
             const normalized = this[normalizeMenuItem](/** @type ContextMenuCommand */ (item));

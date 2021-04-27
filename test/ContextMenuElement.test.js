@@ -87,6 +87,12 @@ describe('ContextMenuElement', () => {
         title: 'test title',
         id: 't8',
       },
+      {
+        target: 'div',
+        type: 'label',
+        label: 'test label',
+        id: 't9',
+      },
     ];
     beforeEach(async () => { 
       // @ts-ignore
@@ -161,6 +167,12 @@ describe('ContextMenuElement', () => {
       const { detail } = spy.args[0][0];
       assert.isTrue(detail.command === menu.commands[7], 'has the command');
       assert.equal(detail.item, 7, 'has the index');
+    });
+
+    it('renders section title', () => {
+      const item = /** @type HTMLElement */ (menu.shadowRoot.querySelector('div[data-cmd="t9"]'));
+      assert.ok(item, 'has the item');
+      assert.include(item.innerHTML.trim(), 'test label', 'has the provided label');
     });
   });
 

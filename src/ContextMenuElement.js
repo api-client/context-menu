@@ -34,6 +34,7 @@ export const moveRight = Symbol('moveRight');
 export const moveLeft = Symbol('moveLeft');
 export const subClosedHandler = Symbol('subClosedHandler');
 export const subTriggerHandler = Symbol('subTriggerHandler');
+export const labelTemplate = Symbol('labelTemplate');
 
 export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
   static get styles() {
@@ -362,6 +363,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
     switch (item.type) {
       case 'normal': return this[menuEntryTemplate](item);
       case 'separator': return this[separatorTemplate](item);
+      case 'label': return this[labelTemplate](item);
       default: return '';
     }
   }
@@ -379,6 +381,22 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
     };
     return html`
     <div class="${classMap(classes)}" data-cmd="${item.id}"></div>
+    `;
+  }
+
+  /**
+   * @param {MenuItem} item
+   * @returns {TemplateResult}
+   */
+  [labelTemplate](item) {
+    const { store, target, workspace, customData } = this;
+    const visible = item.isVisible(store, target, workspace, customData);
+    const classes = {
+      'menu-section-label': true,
+      hidden: !visible,
+    };
+    return html`
+    <div class="${classMap(classes)}" data-cmd="${item.id}">${item.label}</div>
     `;
   }
 
