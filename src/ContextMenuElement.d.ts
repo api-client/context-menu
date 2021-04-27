@@ -23,6 +23,7 @@ export declare const moveRight: unique symbol;
 export declare const moveLeft: unique symbol;
 export declare const subClosedHandler: unique symbol;
 export declare const subTriggerHandler: unique symbol;
+export declare const labelTemplate: unique symbol;
 
 /**
  * @fires trigger
@@ -133,6 +134,8 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
   [menuItemTemplate](item: MenuItem): TemplateResult|string;
 
   [separatorTemplate](item: MenuItem): TemplateResult;
+  
+  [labelTemplate](item: MenuItem): TemplateResult;
 
   [menuEntryTemplate](item: MenuItem): TemplateResult;
 

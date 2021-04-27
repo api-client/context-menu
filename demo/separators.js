@@ -131,13 +131,25 @@ class ComponentPage extends DemoPage {
             label: 'Event',
             children: [
               {
-                label: 'Publish event',
-                id: 'event-publish'
+                type: 'label',
+                label: 'Notification',
               },
               {
-                label: 'Subscribe event',
-                id: 'event-subscribe'
-              }
+                label: 'Resource updated',
+                id: 'event-updated'
+              },
+              {
+                label: 'Resource deleted',
+                id: 'event-deleted'
+              },
+              {
+                type: 'label',
+                label: 'Mutation',
+              },
+              {
+                label: 'Create resource',
+                id: 'event-create'
+              },
             ],
           }
         ],

@@ -39,6 +39,13 @@ export const MenuElementStyles = css`
   margin: 8px 0 8px 40px;
 }
 
+.menu-section-label {
+  font-size: var(--context-menu-section-label-font-size, 0.9rem);
+  font-weight: var(--context-menu-section-label-font-weight, 500);
+  margin: 16px 8px 8px 44px;
+  text-transform:  var(--context-menu-section-label-text-transform, uppercase);
+}
+
 .menu-icon {
   width: 20px;
   height: 20px;

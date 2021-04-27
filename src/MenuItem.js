@@ -27,6 +27,8 @@ export class MenuItem {
       this.execute = execute;
       this.icon = icon;
       this.title = title;
+    } else if (type === 'label') {
+      this.label = /** @type ContextMenuCommand */ (init).label;
     }
   }
 
