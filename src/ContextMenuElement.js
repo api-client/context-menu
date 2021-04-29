@@ -406,6 +406,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
    */
   [menuEntryTemplate](item) {
     const { store, target, workspace, customData } = this;
+    item.beforeRenderCallback(store, target, workspace, customData);
     const visible = item.isVisible(store, target, workspace, customData);
     const enabled = item.isEnabled(store, target, workspace, customData);
     const classes = {

@@ -36,6 +36,10 @@ export class MenuItem {
    * @returns `true` when the command should be rendered in the UI.
    */
   isVisible(store: Map<string, any>, target: HTMLElement|SVGElement, workspace: HTMLElement, customData?: unknown): boolean;
+  /**
+   * Executes the `beforeRender()` function, when specified in the command options.
+   */
+  beforeRenderCallback(store: Map<string, any>, target: HTMLElement|SVGElement, workspace: HTMLElement, customData?: unknown): void;
 
   /**
    * Executes the `execute()` function, when specified in the command options.

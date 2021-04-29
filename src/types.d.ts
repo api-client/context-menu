@@ -6,7 +6,7 @@ export declare interface Point {
   y: number;
 }
 
-export declare interface EnabledOptions {
+declare interface LifecycleContext {
   /**
    * The id of the command.
    */
@@ -18,7 +18,7 @@ export declare interface EnabledOptions {
   /**
    * An instance of the element that triggered the command.
    */
-  target: HTMLElement|SVGElement;
+  target: HTMLElement | SVGElement;
   /**
    * The element with which this context menu was initialized with.
    */
@@ -29,36 +29,19 @@ export declare interface EnabledOptions {
   customData?: unknown;
 }
 
+export declare interface EnabledOptions extends LifecycleContext {
+}
+
 /**
  * Options passed to the `visible()` callback function.
  */
 export type VisibleOptions = EnabledOptions;
 
-export declare interface ExecuteOptions {
-  /**
-   * The id of the command being executed.
-   */
-  id: string;
-  /**
-   * The object store to be used to store menu item data.
-   */
-  store: Map<string, any>;
-  /**
-   * An instance of the element that triggered the command.
-   */
-  target: HTMLElement|SVGElement;
-  /**
-   * The element with which this context menu was initialized with.
-   */
-  root: HTMLElement;
+export declare interface ExecuteOptions extends LifecycleContext {
   /**
    * The point of the original click.
    */
   clickPoint: Point;
-  /**
-   * Any data passed to the command through a custom event.
-   */
-  customData?: unknown;
   /**
    * This is only passed to the execute function when a sub-menu has triggered a menu item
    * that has no `execute` function defined. This is the index of the command.
@@ -69,6 +52,13 @@ export declare interface ExecuteOptions {
    * The menu item that triggered the selection.
    */
   item: MenuItem;
+}
+
+export declare interface BeforeRenderOptions extends LifecycleContext {
+  /**
+   * The menu item that triggered the selection. Changing this item will affects the rendering of it.
+   */
+  menu: MenuItem;
 }
 
 export declare interface CommandBase {
@@ -140,13 +130,18 @@ export declare interface ContextMenuCommand extends CommandBase {
    * You may not set this value and use the `activate` event to listen for command activation.
    */
   execute?: ((args: ExecuteOptions) => void);
+  /**
+   * A function that is executed before the item is rendered.
+   * This way you can customize the rendered values like the icon, label, or title.
+   */
+  beforeRender?: ((ctx: BeforeRenderOptions) => void);
 }
 
 export declare interface TriggerInfo {
   /**
    * The element that triggered the context menu.
    */
-  target: HTMLElement|SVGElement;
+  target: HTMLElement | SVGElement;
   /**
    * The location where the click relative position is.
    * This can be customized by overriding the `readTargetClickPosition()`.

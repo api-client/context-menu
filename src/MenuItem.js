@@ -13,22 +13,25 @@ export class MenuItem {
    * @param {CommandBase} init
    */
   constructor(init) {
-    const { type='normal', target, visible=true, id=genId() } = init;
+    const { type='normal', target, visible=true, id=genId(), } = init;
     this.type = type;
     this.target = target;
     this.visible = visible;
     this.id = id;
     
     if (type === 'normal') {
-      const { label, children, enabled, execute, icon, title } = /** @type ContextMenuCommand */ (init);
+      const { label, children, enabled, execute, icon, title, beforeRender } = /** @type ContextMenuCommand */ (init);
       this.label = label;
       this.children = children;
       this.enabled = enabled;
       this.execute = execute;
+      this.beforeRender = beforeRender;
       this.icon = icon;
       this.title = title;
     } else if (type === 'label') {
-      this.label = /** @type ContextMenuCommand */ (init).label;
+      const { label, beforeRender } = /** @type ContextMenuCommand */ (init);
+      this.label = label;
+      this.beforeRender = beforeRender;
     }
   }
 
@@ -100,6 +103,29 @@ export class MenuItem {
       }
     }
     return result;
+  }
+
+  /**
+   * Executes the `beforeRender()` function, when specified in the command options.
+   * 
+   * @param {Map<string, any>} store
+   * @param {HTMLElement|SVGElement} target
+   * @param {HTMLElement} workspace
+   * @param {unknown} customData
+   */
+  beforeRenderCallback(store, target, workspace, customData) {
+    const { beforeRender, id } = this;
+    if (!beforeRender) {
+      return;
+    }
+    beforeRender({
+      id,
+      store,
+      target, 
+      root: workspace,
+      customData,
+      menu: this,
+    });
   }
 
   /**
