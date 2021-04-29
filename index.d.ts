@@ -7,6 +7,8 @@ export {
   CustomMenuEventDetail,
   EnabledOptions,
   ExecuteOptions,
+  VisibleOptions,
+  BeforeRenderOptions,
   Point,
 } from './src/types';
 export { iconWrapper } from './src/Icons';
