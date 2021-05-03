@@ -29,7 +29,8 @@ export const MenuElementStyles = css`
   pointer-events: none;
 }
 
-.item.hidden {
+.hidden,
+[hidden] {
   display: none;
 }
 
