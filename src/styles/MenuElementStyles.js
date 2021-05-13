@@ -50,6 +50,7 @@ export const MenuElementStyles = css`
 .menu-icon {
   width: 20px;
   height: 20px;
+  fill: var(--context-menu-icon-color, currentColor);
 }
 
 .sub-menu-icon {
