@@ -32,6 +32,9 @@ declare interface LifecycleContext {
 export declare interface EnabledOptions extends LifecycleContext {
 }
 
+export declare interface CheckedOptions extends LifecycleContext {
+}
+
 /**
  * Options passed to the `visible()` callback function.
  */
@@ -71,8 +74,11 @@ export declare interface CommandBase {
   /**
    * The type of the command. By default the command is `normal`. `separator` draws a line between menu items.
    * The `label` renders a title over other list items.
+   * 
+   * The radio type renders a "check" mark on the right of the label instead of image (it is ignored when set).
+   * To mark the checkbox as checked use the `checked` property. Use the lifecycle methods to set the checked state.
    */
-  type?: 'normal' | 'separator' | 'label';
+  type?: 'normal' | 'separator' | 'label' | 'radio';
   /**
    * The target object that activates this item.
    * The `ContextMenu` class uses `findTarget(mouseEvent)` to find the event target and `elementToTarget(targetElement)`
@@ -123,6 +129,12 @@ export declare interface ContextMenuCommand extends CommandBase {
    * When set to a function, it must return a value indicating whether the command is enabled.
    */
   enabled?: boolean | ((args: EnabledOptions) => boolean);
+  /**
+   * Only used when the `type` is set to `radio` and indicated that the element is in the checked state.
+   * When this is true then the UI renders the check mark in the image are.
+   * Note, you cannot use the `image` with this property as the image is ignored and the selection state is indicated in this place.
+   */
+  checked?: boolean | ((args: CheckedOptions) => boolean);
   /**
    * The action to be executed when this command is activated.
    * This is ignored when the command has children. When the command has no children then

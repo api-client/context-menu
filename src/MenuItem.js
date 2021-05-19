@@ -19,11 +19,12 @@ export class MenuItem {
     this.visible = visible;
     this.id = id;
     
-    if (type === 'normal') {
-      const { label, children, enabled, execute, icon, title, beforeRender } = /** @type ContextMenuCommand */ (init);
+    if (['normal', 'radio'].includes(type)) {
+      const { label, children, enabled, execute, icon, title, beforeRender, checked } = /** @type ContextMenuCommand */ (init);
       this.label = label;
       this.children = children;
       this.enabled = enabled;
+      this.checked = checked;
       this.execute = execute;
       this.beforeRender = beforeRender;
       this.icon = icon;
@@ -91,6 +92,41 @@ export class MenuItem {
     } else if (typeof visible === 'function') {
       try {
         result = visible({
+          id,
+          store,
+          target, 
+          root: workspace,
+          customData,
+        });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn(e);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Executes the `checked()` function, when specified in the command options.
+   * 
+   * @param {Map<string, any>} store
+   * @param {HTMLElement|SVGElement} target
+   * @param {HTMLElement} workspace
+   * @param {unknown} customData
+   * @returns {boolean} `true` when the command should be in the checked state
+   */
+  isChecked(store, target, workspace, customData) {
+    const { type, checked, id } = this;
+    if (type !== 'radio') {
+      return false;
+    }
+    if (typeof checked === 'boolean') {
+      return checked;
+    }
+    let result = false;
+    if (typeof checked === 'function') {
+      try {
+        result = checked({
           id,
           store,
           target, 

@@ -242,6 +242,7 @@ export class ContextMenu extends EventTarget {
         case 'separator': result.push(new MenuItem(item)); break;
         case 'label': result.push(new MenuItem(item)); break;
         case 'normal':
+        case 'radio':
           {
             const normalized = this[normalizeMenuItem](/** @type ContextMenuCommand */ (item));
             result.push(new MenuItem(normalized));

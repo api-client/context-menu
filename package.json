@@ -1,6 +1,6 @@
 {
   "name": "@api-client/context-menu",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Accessible and highly customizable context menu for web apps",
   "license": "cc-by-4.0",
   "main": "index.js",
@@ -10,7 +10,10 @@
     "menu",
     "context menu"
   ],
-  "author": "Pawel Psztyc",
+  "author": {
+    "name": "Pawel Psztyc",
+    "email": "pawel.psztyc@gmail.com"
+  },
   "contributors": [
     "Your name can be here!"
   ],
@@ -24,26 +27,26 @@
   },
   "dependencies": {
     "@advanced-rest-client/arc-overlay-mixin": "^1.2.0",
-    "@anypoint-web-components/anypoint-item": "^1.1.0",
+    "@anypoint-web-components/anypoint-item": "^1.1.1",
     "@anypoint-web-components/anypoint-listbox": "^1.1.6",
-    "lit-element": "^2.4.0",
-    "lit-html": "^1.4.0"
+    "lit-element": "^2.5.1",
+    "lit-html": "^1.4.1"
   },
   "devDependencies": {
     "@advanced-rest-client/arc-demo-helper": "^2.2.6",
-    "@babel/core": "^7.14.0",
-    "@babel/eslint-parser": "^7.13.10",
+    "@babel/core": "^7.14.3",
+    "@babel/eslint-parser": "^7.14.3",
     "@babel/plugin-syntax-class-properties": "^7.12.13",
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "^2.5.33",
     "@web/dev-server": "^0.1.17",
-    "@web/test-runner": "^0.13.3",
+    "@web/test-runner": "^0.13.4",
     "@web/test-runner-commands": "^0.4.5",
-    "@web/test-runner-playwright": "^0.8.5",
-    "eslint": "^7.25.0",
+    "@web/test-runner-playwright": "^0.8.6",
+    "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "husky": "^6.0.0",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^11.0.0",
     "sinon": "^10.0.0",
     "typescript": "^4.2.4",
     "typescript-lit-html-plugin": "^0.9.0"
