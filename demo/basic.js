@@ -78,6 +78,15 @@ class ComponentPage extends DemoPage {
         execute: (args) => {
           console.log(args);
         }
+      },
+      {
+        target: 'all',
+        label: 'Uninitialized',
+        beforeRender: (ctx) => {
+          const { menu, target } = ctx;
+          const label = `Clicked on a ${target.localName}`;
+          menu.label = label;
+        },
       }
     ]);
     instance.registerCommands(commands);
@@ -96,8 +105,8 @@ class ComponentPage extends DemoPage {
     <section class="documentation-section">
       <h3>Interactive demo</h3>
       <div id="workspace">
-        <div class="target"></div>
-        <div class="target second"></div>
+        <section class="target">Section</section>
+        <aside class="target second">Aside</aside>
       </div>
       <p>This menu has a hidden item.</p>
     </section>

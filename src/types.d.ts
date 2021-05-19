@@ -6,7 +6,7 @@ export declare interface Point {
   y: number;
 }
 
-export declare interface EnabledOptions {
+declare interface LifecycleContext {
   /**
    * The id of the command.
    */
@@ -18,7 +18,7 @@ export declare interface EnabledOptions {
   /**
    * An instance of the element that triggered the command.
    */
-  target: HTMLElement|SVGElement;
+  target: HTMLElement | SVGElement;
   /**
    * The element with which this context menu was initialized with.
    */
@@ -29,36 +29,22 @@ export declare interface EnabledOptions {
   customData?: unknown;
 }
 
+export declare interface EnabledOptions extends LifecycleContext {
+}
+
+export declare interface CheckedOptions extends LifecycleContext {
+}
+
 /**
  * Options passed to the `visible()` callback function.
  */
 export type VisibleOptions = EnabledOptions;
 
-export declare interface ExecuteOptions {
-  /**
-   * The id of the command being executed.
-   */
-  id: string;
-  /**
-   * The object store to be used to store menu item data.
-   */
-  store: Map<string, any>;
-  /**
-   * An instance of the element that triggered the command.
-   */
-  target: HTMLElement|SVGElement;
-  /**
-   * The element with which this context menu was initialized with.
-   */
-  root: HTMLElement;
+export declare interface ExecuteOptions extends LifecycleContext {
   /**
    * The point of the original click.
    */
   clickPoint: Point;
-  /**
-   * Any data passed to the command through a custom event.
-   */
-  customData?: unknown;
   /**
    * This is only passed to the execute function when a sub-menu has triggered a menu item
    * that has no `execute` function defined. This is the index of the command.
@@ -71,6 +57,13 @@ export declare interface ExecuteOptions {
   item: MenuItem;
 }
 
+export declare interface BeforeRenderOptions extends LifecycleContext {
+  /**
+   * The menu item that triggered the selection. Changing this item will affects the rendering of it.
+   */
+  menu: MenuItem;
+}
+
 export declare interface CommandBase {
   /**
    * The identifier of the command. Can be used to declare ids manually. The command is passed 
@@ -81,8 +74,11 @@ export declare interface CommandBase {
   /**
    * The type of the command. By default the command is `normal`. `separator` draws a line between menu items.
    * The `label` renders a title over other list items.
+   * 
+   * The radio type renders a "check" mark on the right of the label instead of image (it is ignored when set).
+   * To mark the checkbox as checked use the `checked` property. Use the lifecycle methods to set the checked state.
    */
-  type?: 'normal' | 'separator' | 'label';
+  type?: 'normal' | 'separator' | 'label' | 'radio';
   /**
    * The target object that activates this item.
    * The `ContextMenu` class uses `findTarget(mouseEvent)` to find the event target and `elementToTarget(targetElement)`
@@ -134,19 +130,30 @@ export declare interface ContextMenuCommand extends CommandBase {
    */
   enabled?: boolean | ((args: EnabledOptions) => boolean);
   /**
+   * Only used when the `type` is set to `radio` and indicated that the element is in the checked state.
+   * When this is true then the UI renders the check mark in the image are.
+   * Note, you cannot use the `image` with this property as the image is ignored and the selection state is indicated in this place.
+   */
+  checked?: boolean | ((args: CheckedOptions) => boolean);
+  /**
    * The action to be executed when this command is activated.
    * This is ignored when the command has children. When the command has no children then
    * when this is set to a function, this function is called when a menu item is triggered.
    * You may not set this value and use the `activate` event to listen for command activation.
    */
   execute?: ((args: ExecuteOptions) => void);
+  /**
+   * A function that is executed before the item is rendered.
+   * This way you can customize the rendered values like the icon, label, or title.
+   */
+  beforeRender?: ((ctx: BeforeRenderOptions) => void);
 }
 
 export declare interface TriggerInfo {
   /**
    * The element that triggered the context menu.
    */
-  target: HTMLElement|SVGElement;
+  target: HTMLElement | SVGElement;
   /**
    * The location where the click relative position is.
    * This can be customized by overriding the `readTargetClickPosition()`.

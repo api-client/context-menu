@@ -6,7 +6,7 @@ import { ArcOverlayMixin } from '@advanced-rest-client/arc-overlay-mixin';
 import '@anypoint-web-components/anypoint-listbox/anypoint-listbox.js';
 import '@anypoint-web-components/anypoint-item/anypoint-icon-item.js';
 import { MenuElementStyles } from './styles/MenuElementStyles.js';
-import { arrowRight } from './Icons.js';
+import { arrowRight, check } from './Icons.js';
 
 /** @typedef {import('lit-element').TemplateResult} TemplateResult */
 /** @typedef {import('lit-element').SVGTemplateResult} SVGTemplateResult */
@@ -35,6 +35,8 @@ export const moveLeft = Symbol('moveLeft');
 export const subClosedHandler = Symbol('subClosedHandler');
 export const subTriggerHandler = Symbol('subTriggerHandler');
 export const labelTemplate = Symbol('labelTemplate');
+export const radioEntryTemplate = Symbol('radioEntryTemplate');
+export const menuEntryCheckMarkTemplate = Symbol('menuEntryCheckMarkTemplate');
 
 export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
   static get styles() {
@@ -364,6 +366,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
       case 'normal': return this[menuEntryTemplate](item);
       case 'separator': return this[separatorTemplate](item);
       case 'label': return this[labelTemplate](item);
+      case 'radio': return this[radioEntryTemplate](item);
       default: return '';
     }
   }
@@ -406,6 +409,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
    */
   [menuEntryTemplate](item) {
     const { store, target, workspace, customData } = this;
+    item.beforeRenderCallback(store, target, workspace, customData);
     const visible = item.isVisible(store, target, workspace, customData);
     const enabled = item.isEnabled(store, target, workspace, customData);
     const classes = {
@@ -433,6 +437,41 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
   }
 
   /**
+   * @param {MenuItem} item
+   * @returns {TemplateResult}
+   */
+  [radioEntryTemplate](item) {
+    const { store, target, workspace, customData } = this;
+    item.beforeRenderCallback(store, target, workspace, customData);
+    const visible = item.isVisible(store, target, workspace, customData);
+    const enabled = item.isEnabled(store, target, workspace, customData);
+    const checked = item.isChecked(store, target, workspace, customData);
+    const classes = {
+      item: true,
+      disabled: !enabled,
+      hidden: !visible,
+    };
+    const { title, label, id, hasChildren } = item;
+    return html`
+    <anypoint-icon-item 
+      class="${classMap(classes)}" 
+      ?disabled="${!visible || !enabled}"
+      aria-hidden="${!visible}"
+      title="${ifDefined(title)}"
+      data-cmd="${id}"
+      data-nested="${hasChildren}"
+      data-type="radio"
+      aria-haspopup="${hasChildren}"
+      role="menuitem"
+    >
+      ${this[menuEntryCheckMarkTemplate](checked)}
+      <span class="menu-label">${label}</span>
+      ${hasChildren ? this[childrenIconTemplate]() : ''}
+    </anypoint-icon-item>
+    `;
+  }
+
+  /**
    * @param {SVGTemplateResult=} icon The icon is not required.
    * @return {TemplateResult} 
    */
@@ -448,6 +487,19 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
   [childrenIconTemplate]() {
     return html`
     <div class="sub-menu-icon">${arrowRight}</div>
+    `;
+  }
+
+  /**
+   * @param {boolean} checked
+   * @return {TemplateResult|string} The template for the menu entry checked mark.
+   */
+  [menuEntryCheckMarkTemplate](checked) {
+    if (!checked) {
+      return '';
+    }
+    return html`
+      <div class="menu-icon" data-state="checked" slot="item-icon">${check}</div>
     `;
   }
 }

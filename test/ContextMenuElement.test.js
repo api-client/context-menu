@@ -6,6 +6,7 @@ import { copy } from '../demo/DemoIcons.js';
 import '../context-menu.js';
 
 /** @typedef {import('../index').ContextMenuElement} ContextMenuElement */
+/** @typedef {import('../index').ContextMenuCommand} ContextMenuCommand */
 
 describe('ContextMenuElement', () => {
   const store = new Map();
@@ -434,6 +435,126 @@ describe('ContextMenuElement', () => {
       }));
       const sub = menu.shadowRoot.querySelector('context-menu');
       assert.ok(sub);
+    });
+  });
+
+  describe('Radio menus', () => {
+    before(async () => {
+      await setViewport({ width: 1200, height: 800 });
+    });
+
+    let menu = /** @type ContextMenuElement */ (null);
+    const commands = /** @type ContextMenuCommand[] */ ([
+      {
+        target: 'all',
+        label: 'Font',
+        title: 'Select a default font for the UI',
+        id: 'font-size',
+        execute: (ctx) => {
+          const size = ctx.item.id.replace('font-', '');
+          ctx.store.set('font-size', size);
+        },
+        children: [
+          {
+            type: 'radio',
+            label: 'Small',
+            id: 'font-small',
+            checked: (ctx) => {
+              const fs = ctx.store.get('font-size');
+              return fs === 'small';
+            },
+          },
+          {
+            type: 'radio',
+            label: 'Normal',
+            id: 'font-normal',
+            checked: (ctx) => {
+              const fs = ctx.store.get('font-size');
+              return !fs || fs === 'normal';
+            },
+          },
+          {
+            type: 'radio',
+            label: 'Large',
+            id: 'font-large',
+            checked: (ctx) => {
+              const fs = ctx.store.get('font-size');
+              return fs === 'large';
+            },
+          },
+        ],
+      },
+    ]);
+
+    beforeEach(async () => { 
+      const cmd = commands.map((item) => {
+        const result = new MenuItem(item);
+        if (result.children) {
+          // @ts-ignore
+          result.children = result.children.map((child) => new MenuItem(child));
+        }
+        return result;
+      });
+      menu = await dataFixture(cmd); 
+      menu.subMenuTimeout = 0;
+      menu.style.top = '25px';
+      menu.style.left = '25px';
+    });
+
+    /**
+     * @param {ContextMenuElement} elm
+     * @param {string} name
+     * @returns {Promise<ContextMenuElement>} 
+     */
+    async function untilOpened(elm, name) {
+      // make sure the menu is fully rendered
+      await nextFrame();
+      const item = /** @type HTMLElement */ (elm.shadowRoot.querySelector(`anypoint-icon-item[data-cmd="${name}"]`));
+      item.dispatchEvent(new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        clientX: 0,
+        clientY: 0,
+      }));
+      // for the menu debouncer
+      await aTimeout(1);
+      // for the menu to render
+      await nextFrame();
+      return elm.shadowRoot.querySelector('context-menu');
+    }
+
+    it('has the selected item', async () => {
+      const sub = await untilOpened(menu, 'font-size');
+      const item = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item[data-cmd="font-normal"]'));
+      const checkIcon = item.querySelector('.menu-icon[data-state="checked"]');
+      assert.ok(checkIcon);
+    });
+
+    it('has no selection when not set', async () => {
+      const sub = await untilOpened(menu, 'font-size');
+      const item1 = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item[data-cmd="font-small"]'));
+      const checkIcon1 = item1.querySelector('.menu-icon[data-state="checked"]');
+      assert.notOk(checkIcon1, 'first item has no selection');
+
+      const item2 = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item[data-cmd="font-large"]'));
+      const checkIcon2 = item2.querySelector('.menu-icon[data-state="checked"]');
+      assert.notOk(checkIcon2, 'third item has no selection');
+    });
+
+    it('has the data-type property', async () => {
+      const sub = await untilOpened(menu, 'font-size');
+      const item = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item[data-cmd="font-normal"]'));
+      assert.equal(item.getAttribute('data-type'), 'radio');
+    });
+
+    it('uses the boolean checked value to determine the state', async () => {
+      // @ts-ignore
+      menu.commands[0].children[0].checked = true;
+      const sub = await untilOpened(menu, 'font-size');
+      const item = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item[data-cmd="font-small"]'));
+      const checkIcon = item.querySelector('.menu-icon[data-state="checked"]');
+      assert.ok(checkIcon);
     });
   });
 });

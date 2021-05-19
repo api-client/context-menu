@@ -33,6 +33,15 @@ To initialize the library you provide a reference to the element that is the roo
 
 The second step is to define commands that are rendered in the menu.
 
+### Command types
+
+The menu support the following command types:
+
+- `normal` (default) - Regular menu entry
+- `radio` - Menu item that support the `checked` property / function to mark menu item as selected. Note, custom icons are ignored with this item.
+- `label` - Renders a section title for a group of menu entries.
+- `separator` - Renders a horizontal line separating a group of commands.
+
 ### Registering commands
 
 Use the `registerCommands()` function to register commands to be rendered in the menu. Previously registered commands are removed from the menu after calling this function.

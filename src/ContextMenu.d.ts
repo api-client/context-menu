@@ -9,6 +9,7 @@ export declare const menuTriggerHandler: unique symbol;
 export declare const customMenuHandler: unique symbol;
 export declare const normalizeMenuItem: unique symbol;
 export declare const prepareCommands: unique symbol;
+export declare const connectedValue: unique symbol;
 
 /**
  * The base class for the context menu. It can be used as is but in some specific cases
@@ -19,8 +20,8 @@ export class ContextMenu extends EventTarget {
    * @returns} true when the menu is connected to the `workspace`.
    */
   get connected(): boolean;
-
-  #connectedValue: boolean;
+  [connectedValue]: boolean;
+  
   workspace: HTMLElement;
   /** 
    * The store initialized with this context menu. Passed to the lifecycle functions.

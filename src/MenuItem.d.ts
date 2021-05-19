@@ -1,5 +1,5 @@
 import { SVGTemplateResult } from 'lit-html';
-import { CommandBase, ContextMenuCommand, Point, VisibleOptions, EnabledOptions, ExecuteOptions } from './types';
+import { CommandBase, ContextMenuCommand, Point, VisibleOptions, EnabledOptions, ExecuteOptions, CheckedOptions } from './types';
 
 /**
  * An object representing a single menu item in the menu.
@@ -14,6 +14,7 @@ export class MenuItem {
   icon?: SVGTemplateResult;
   children?: (ContextMenuCommand | CommandBase)[];
   enabled?: boolean | ((args: EnabledOptions) => boolean);
+  checked?: boolean | ((args: CheckedOptions) => boolean);
   execute?: ((args: ExecuteOptions) => void);
 
   constructor(init: CommandBase);
@@ -36,6 +37,18 @@ export class MenuItem {
    * @returns `true` when the command should be rendered in the UI.
    */
   isVisible(store: Map<string, any>, target: HTMLElement|SVGElement, workspace: HTMLElement, customData?: unknown): boolean;
+
+  /**
+   * Executes the `checked()` function, when specified in the command options.
+   * 
+   * @returns `true` when the command should be in the checked state
+   */
+  isChecked(store: Map<string, any>, target: HTMLElement|SVGElement, workspace: HTMLElement, customData?: unknown): boolean;
+
+  /**
+   * Executes the `beforeRender()` function, when specified in the command options.
+   */
+  beforeRenderCallback(store: Map<string, any>, target: HTMLElement|SVGElement, workspace: HTMLElement, customData?: unknown): void;
 
   /**
    * Executes the `execute()` function, when specified in the command options.
