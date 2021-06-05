@@ -3,19 +3,18 @@ env:
   FORCE_COLOR: 1
 on:
   push:
+    branches:
+      - master
+      - main
+      - develop
   pull_request:
     branches:
       - master
       - main
 jobs:
   test_linux:
-    name: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-20.04]
-        # os: [ubuntu-18.04, ubuntu-20.04]
-    runs-on: ${{ matrix.os }}
+    name: Ubuntu
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
