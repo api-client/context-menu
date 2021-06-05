@@ -557,4 +557,96 @@ describe('ContextMenu', () => {
       assert.isTrue(spy.called, 'the event is dispatched');
     });
   });
+
+  describe('listCommands()', () => {
+    let workspace = /** @type HTMLDivElement */ (null);
+    let target = /** @type HTMLDivElement */ (null);
+    let menu = /** @type ContextMenu */ (null);
+    beforeEach(async () => {
+      workspace = await fixture(html`<div></div>`);
+      target = await fixture(html`<div class="container"><span class="label"></span></div>`);
+      menu = new ContextMenu(workspace);
+    });
+
+    it('list commands for "all" only', () => {
+      menu.registerCommands([
+        {
+          target: 'all',
+          id: '1',
+        },
+        {
+          target: 'something',
+          id: '2',
+        },
+        {
+          target: 'all',
+          id: '3',
+        },
+      ]);
+      const result = menu.listCommands('all', target);
+      assert.lengthOf(result, 2, 'returns 2 items');
+      assert.equal(result[0].id, '1', 'has the first item');
+      assert.equal(result[1].id, '3', 'has the last item');
+    });
+
+    it('list commands for array target', () => {
+      menu.registerCommands([
+        {
+          target: 'other',
+          id: '1',
+        },
+        {
+          target: ['something', 'other'],
+          id: '2',
+        },
+        {
+          target: 'other',
+          id: '3',
+        },
+      ]);
+      const result = menu.listCommands('something', target);
+      assert.lengthOf(result, 1, 'returns 1 item');
+      assert.equal(result[0].id, '2', 'has the item');
+    });
+
+    it('returns specific target', () => {
+      menu.registerCommands([
+        {
+          target: 'other',
+          id: '1',
+        },
+        {
+          target: 'something',
+          id: '2',
+        },
+        {
+          target: 'other',
+          id: '3',
+        },
+      ]);
+      const result = menu.listCommands('something', target);
+      assert.lengthOf(result, 1, 'returns 1 item');
+      assert.equal(result[0].id, '2', 'has the item');
+    });
+
+    it('returns matched selector', () => {
+      menu.registerCommands([
+        {
+          target: 'other',
+          id: '1',
+        },
+        {
+          target: 'div.container > span.label',
+          id: '2',
+        },
+        {
+          target: 'other',
+          id: '3',
+        },
+      ]);
+      const result = menu.listCommands('something', /** @type HTMLSpanElement */ (target.children[0]));
+      assert.lengthOf(result, 1, 'returns 1 item');
+      assert.equal(result[0].id, '2', 'has the item');
+    });
+  });
 });

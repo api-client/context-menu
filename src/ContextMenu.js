@@ -283,7 +283,7 @@ export class ContextMenu extends EventTarget {
    */
   build(target, name, placementPoint, targetPoint, customData) {
     this.triggerInfo = undefined;
-    const commands = this.listCommands(name);
+    const commands = this.listCommands(name, target);
     if (!commands.length) {
       return;
     }
@@ -327,13 +327,14 @@ export class ContextMenu extends EventTarget {
   /**
    * Lists all commands that matches the target.
    *
-   * @param {string} target The build target
+   * @param {string} targetName The build target name
+   * @param {HTMLElement|SVGElement} targetElement The element that triggered the menu
    * @returns {MenuItem[]}
    */
-  listCommands(target) {
+  listCommands(targetName, targetElement) {
     const { commands=[] } = this;
     const result = /** @type MenuItem[] */ ([]);
-    const filter = ['all', target];
+    const filter = ['all', targetName];
     commands.forEach((cmd) => {
       if (Array.isArray(cmd.target)) {
         const hasTarget = cmd.target.some((item) => filter.includes(item));
@@ -342,6 +343,14 @@ export class ContextMenu extends EventTarget {
         }
       } else if (filter.includes(cmd.target)) {
         result.push(cmd);
+      } else {
+        try {
+          if (targetElement.matches(cmd.target)) {
+            result.push(cmd);
+          }
+        } catch (e) {
+          // 
+        }
       }
     });
     return result;

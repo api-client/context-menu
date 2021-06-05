@@ -140,9 +140,10 @@ export class ContextMenu extends EventTarget {
   /**
    * Lists all commands that matches the target.
    *
-   * @param target The build target
+   * @param targetName The build target
+   * @param targetElement The element that triggered the menu
    */
-  listCommands(target: string): MenuItem[];
+  listCommands(targetName: string, targetElement: HTMLElement|SVGElement): MenuItem[];
 
   /**
    * Removes the currently rendered menu.
