@@ -7,6 +7,7 @@ import { genId } from './IdGenerator.js';
 /** @typedef {import('./types').TriggerInfo} TriggerInfo */
 /** @typedef {import('./types').CustomMenuEventDetail} CustomMenuEventDetail */
 /** @typedef {import('./types').CommandBase} CommandBase */
+/** @typedef {import('./types').MenuOptions} MenuOptions */
 /** @typedef {import('./types').Point} Point */
 
 export const contextHandler = Symbol('contextHandler');
@@ -17,6 +18,14 @@ export const customMenuHandler = Symbol('customMenuHandler');
 export const normalizeMenuItem = Symbol('normalizeMenuItem');
 export const prepareCommands = Symbol('prepareCommands');
 export const connectedValue = Symbol('connectedValue');
+
+/**
+ * @param {Event} e
+ */
+function cancelEvent(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
 
 /**
  * The base class for the context menu. It can be used as is but in some specific cases
@@ -32,8 +41,9 @@ export class ContextMenu extends EventTarget {
 
   /**
    * @param {HTMLElement} workspace The root element that is the click handler
+   * @param {MenuOptions=} [opts={}] The Menu configuration options.
    */
-  constructor(workspace) {
+  constructor(workspace, opts={}) {
     super();
     this.workspace = workspace;
     /** 
@@ -51,6 +61,11 @@ export class ContextMenu extends EventTarget {
      * @type {TriggerInfo}
      */
     this.triggerInfo = undefined;
+    /** 
+     * The Menu configuration options.
+     * @type {MenuOptions}
+     */
+    this.options = { ...opts };
     
     this[connectedValue] = false;
 
@@ -137,8 +152,9 @@ export class ContextMenu extends EventTarget {
    * @param {MouseEvent} e
    */
   [contextHandler](e) {
-    e.preventDefault();
-    e.stopPropagation();
+    if (!this.options.cancelNativeWhenHandled) {
+      cancelEvent(e);
+    }
     this.destroy();
     const target = this.findTarget(e);
     if (!target) {
@@ -147,6 +163,9 @@ export class ContextMenu extends EventTarget {
     const name = this.elementToTarget(target);
     if (!name) {
       return;
+    }
+    if (this.options.cancelNativeWhenHandled) {
+      cancelEvent(e);
     }
     // since the context menu has fixed position it doesn't matter what the context 
     // is as the menu is rendered over all elements.
@@ -164,8 +183,7 @@ export class ContextMenu extends EventTarget {
    * @param {CustomEvent<CustomMenuEventDetail>} e
    */
   [customMenuHandler](e) {
-    e.preventDefault();
-    e.stopPropagation();
+    cancelEvent(e);
     const { name, x=0, y=0, actionTarget=this.workspace, clickEvent, customData } = e.detail;
     const clickPoint = {
       x, 

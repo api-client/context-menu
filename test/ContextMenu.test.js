@@ -74,6 +74,16 @@ describe('ContextMenu', () => {
       const menu = new ContextMenu(workspace);
       assert.isFalse(menu.connected);
     });
+
+    it('sets the default "options"', async () => {
+      const menu = new ContextMenu(workspace);
+      assert.deepEqual(menu.options, {});
+    });
+
+    it('sets the passed "options"', async () => {
+      const menu = new ContextMenu(workspace, { cancelNativeWhenHandled: true });
+      assert.deepEqual(menu.options, { cancelNativeWhenHandled: true });
+    });
   });
 
   describe('elementToTarget()', () => {
@@ -182,6 +192,51 @@ describe('ContextMenu', () => {
       const menuElement = workspace.querySelector('context-menu');
       const instances = menuElement.shadowRoot.querySelectorAll('anypoint-listbox > *');
       assert.lengthOf(instances, 4);
+    });
+
+    it('cancels the native event', () => {
+      menu.registerCommands([...commands]);
+      menu.elementToTarget = () => 'target';
+      const span = workspace.querySelector('span');
+      const e = new MouseEvent('contextmenu', {
+        clientX: 1,
+        clientY: 1,
+        bubbles: true,
+        cancelable: true,
+      });
+      span.dispatchEvent(e);
+      assert.isTrue(e.defaultPrevented);
+    });
+
+    it('cancels the native event with cancelNativeWhenHandled', () => {
+      menu.registerCommands([...commands]);
+      menu.elementToTarget = () => 'target';
+      menu.options.cancelNativeWhenHandled = true;
+      const span = workspace.querySelector('span');
+      const e = new MouseEvent('contextmenu', {
+        clientX: 1,
+        clientY: 1,
+        bubbles: true,
+        cancelable: true,
+      });
+      span.dispatchEvent(e);
+      assert.isTrue(e.defaultPrevented);
+    });
+
+    it('does not cancel the native event with cancelNativeWhenHandled', () => {
+      const [cmd] = commands;
+      menu.registerCommands([cmd]);
+      menu.elementToTarget = () => undefined;
+      menu.options.cancelNativeWhenHandled = true;
+      const span = workspace.querySelector('span');
+      const e = new MouseEvent('contextmenu', {
+        clientX: 1,
+        clientY: 1,
+        bubbles: true,
+        cancelable: true,
+      });
+      span.dispatchEvent(e);
+      assert.isFalse(e.defaultPrevented);
     });
   });
 

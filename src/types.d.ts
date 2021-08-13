@@ -1,6 +1,19 @@
 import { SVGTemplateResult } from "lit-html";
 import { MenuItem } from "./MenuItem";
 
+export declare interface MenuOptions {
+  /**
+   * By default the `contextmenu` event is always cancelled by the library
+   * whether the command is actually handled or not.
+   * When this is set the event is cancelled only when the context menu can be rendered
+   * in the current context.
+   * 
+   * Note, this may cause a disjoint experience to the user as in one situation the right click
+   * would render this context menu and in another system's & browser context menu.
+   */
+  cancelNativeWhenHandled?: boolean;
+}
+
 export declare interface Point {
   x: number;
   y: number;

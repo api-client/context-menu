@@ -1,6 +1,6 @@
 import { ContextMenuElement } from './ContextMenuElement.js';
 import { MenuItem } from './MenuItem.js';
-import { ContextMenuCommand, TriggerInfo, CustomMenuEventDetail, CommandBase, Point } from './types';
+import { ContextMenuCommand, TriggerInfo, CustomMenuEventDetail, CommandBase, Point, MenuOptions } from './types';
 
 export declare const contextHandler: unique symbol;
 export declare const clickHandler: unique symbol;
@@ -39,11 +39,16 @@ export class ContextMenu extends EventTarget {
    * Currently rendered context menu.
    */
   currentMenu?: ContextMenuElement;
+  /** 
+   * The Menu configuration options.
+   */
+  options: MenuOptions;
 
   /**
    * @param workspace The root element that is the click handler
+   * @param opts The Menu configuration options.
    */
-  constructor(workspace: HTMLElement);
+  constructor(workspace: HTMLElement, opts?: MenuOptions);
 
   /**
    * Starts listening on user events
