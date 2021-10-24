@@ -1,6 +1,5 @@
 import { LitElement, TemplateResult, CSSResult, SVGTemplateResult } from 'lit-element';
-import { ArcOverlayMixin } from '@advanced-rest-client/arc-overlay-mixin';
-import { AnypointIconItem } from '@anypoint-web-components/anypoint-item';
+import { AnypointIconItemElement, OverlayMixin } from '@anypoint-web-components/awc';
 import { MenuItem } from './MenuItem';
 
 export declare const menuItemTemplate: unique symbol;
@@ -28,7 +27,7 @@ export declare const labelTemplate: unique symbol;
 /**
  * @fires trigger
  */
-export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
+export class ContextMenuElement extends OverlayMixin(LitElement) {
   static get styles(): CSSResult;
 
   /** 
@@ -75,7 +74,7 @@ export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
    */
   [mouseoverHandler](e: MouseEvent): void;
 
-  [findEventListItemTarget](e: Event): AnypointIconItem;
+  [findEventListItemTarget](e: Event): AnypointIconItemElement;
 
   /**
    * Builds a nested menu for a command.

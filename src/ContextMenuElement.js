@@ -2,16 +2,16 @@
 import { LitElement, html } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { ArcOverlayMixin } from '@advanced-rest-client/arc-overlay-mixin';
-import '@anypoint-web-components/anypoint-listbox/anypoint-listbox.js';
-import '@anypoint-web-components/anypoint-item/anypoint-icon-item.js';
+import { OverlayMixin } from '@anypoint-web-components/awc';
+import '@anypoint-web-components/awc/anypoint-listbox.js';
+import '@anypoint-web-components/awc/anypoint-icon-item.js';
 import { MenuElementStyles } from './styles/MenuElementStyles.js';
 import { arrowRight, check } from './Icons.js';
 
 /** @typedef {import('lit-element').TemplateResult} TemplateResult */
 /** @typedef {import('lit-element').SVGTemplateResult} SVGTemplateResult */
-/** @typedef {import('@anypoint-web-components/anypoint-listbox').AnypointListbox} AnypointListbox */
-/** @typedef {import('@anypoint-web-components/anypoint-item').AnypointIconItem} AnypointIconItem */
+/** @typedef {import('@anypoint-web-components/awc').AnypointListboxElement} AnypointListbox */
+/** @typedef {import('@anypoint-web-components/awc').AnypointIconItemElement} AnypointIconItem */
 /** @typedef {import('./MenuItem').MenuItem} MenuItem */
 
 export const menuItemTemplate = Symbol('menuItemTemplate');
@@ -38,7 +38,7 @@ export const labelTemplate = Symbol('labelTemplate');
 export const radioEntryTemplate = Symbol('radioEntryTemplate');
 export const menuEntryCheckMarkTemplate = Symbol('menuEntryCheckMarkTemplate');
 
-export class ContextMenuElement extends ArcOverlayMixin(LitElement) {
+export class ContextMenuElement extends OverlayMixin(LitElement) {
   static get styles() {
     return MenuElementStyles;
   }
