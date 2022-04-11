@@ -121,7 +121,8 @@ describe('ContextMenuElement', () => {
 
     it('renders a hidden divider', async () => {
       menu.commands[1].visible = false;
-      await menu.requestUpdate();
+      menu.requestUpdate();
+      await menu.updateComplete;
       const item = /** @type HTMLElement */ (menu.shadowRoot.querySelector('div[data-cmd="t2"]'));
       assert.ok(item, 'has the divider');
       assert.isTrue(item.classList.contains('hidden'), 'has the hidden class name');
