@@ -1,6 +1,6 @@
-import { svg } from 'lit-html';
+import { svg } from 'lit';
 
-/** @typedef {import('lit-html').SVGTemplateResult} SVGTemplateResult */
+/** @typedef {import('lit').SVGTemplateResult} SVGTemplateResult */
 
 /**
  * Wraps icon into an SVG container.

@@ -1,5 +1,5 @@
-import { html } from 'lit-html';
-import { DemoPage } from '@advanced-rest-client/arc-demo-helper';
+import { html } from 'lit';
+import { DemoPage } from './DemoPage.js';
 import { ContextMenu } from '../index.js';
 import { formatSize, copy, paste, title, fontDownload } from './DemoIcons.js';
 
@@ -9,7 +9,6 @@ class ComponentPage extends DemoPage {
   constructor() {
     super();
     this.componentName = 'Using separators';
-    this.renderViewControls = true;
   }
 
   firstRender() {

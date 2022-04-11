@@ -1,5 +1,5 @@
-import { html } from 'lit-html';
-import { DemoPage } from '@advanced-rest-client/arc-demo-helper';
+import { html } from 'lit';
+import { DemoPage } from './DemoPage.js';
 import { ContextMenu } from '../index.js';
 import { copy, paste, flag } from './DemoIcons.js';
 
@@ -8,11 +8,7 @@ import { copy, paste, flag } from './DemoIcons.js';
 class ComponentPage extends DemoPage {
   constructor() {
     super();
-    // this.initObservableProperties([
-    //   'har'
-    // ]);
     this.componentName = 'Icons example';
-    this.renderViewControls = true;
   }
 
   firstRender() {

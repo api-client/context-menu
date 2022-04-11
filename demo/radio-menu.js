@@ -1,5 +1,5 @@
-import { html } from 'lit-html';
-import { DemoPage } from '@advanced-rest-client/arc-demo-helper';
+import { html } from 'lit';
+import { DemoPage } from './DemoPage.js';
 import { ContextMenu } from '../index.js';
 
 /** @typedef {import('../src/types').ContextMenuCommand} ContextMenuCommand */
@@ -7,11 +7,7 @@ import { ContextMenu } from '../index.js';
 class ComponentPage extends DemoPage {
   constructor() {
     super();
-    // this.initObservableProperties([
-    //   'har'
-    // ]);
     this.componentName = 'Radio items context menu';
-    this.renderViewControls = true;
   }
 
   firstRender() {

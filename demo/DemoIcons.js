@@ -1,4 +1,4 @@
-import { svg } from 'lit-html';
+import { svg } from 'lit';
 import { iconWrapper } from '../src/Icons.js';
 
 // fonts by Material Design: https://fonts.google.com/icons?selected=Material+Icons

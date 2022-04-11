@@ -1,4 +1,4 @@
-import { LitElement, TemplateResult, CSSResult, SVGTemplateResult } from 'lit-element';
+import { LitElement, TemplateResult, CSSResult, SVGTemplateResult } from 'lit';
 import { AnypointIconItemElement, OverlayMixin } from '@anypoint-web-components/awc';
 import { MenuItem } from './MenuItem';
 

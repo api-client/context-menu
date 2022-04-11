@@ -1,15 +1,15 @@
 /* eslint-disable class-methods-use-this */
-import { LitElement, html } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map.js';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { LitElement, html } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { OverlayMixin } from '@anypoint-web-components/awc';
-import '@anypoint-web-components/awc/anypoint-listbox.js';
-import '@anypoint-web-components/awc/anypoint-icon-item.js';
+import '@anypoint-web-components/awc/dist/define/anypoint-listbox.js';
+import '@anypoint-web-components/awc/dist/define/anypoint-icon-item.js';
 import { MenuElementStyles } from './styles/MenuElementStyles.js';
 import { arrowRight, check } from './Icons.js';
 
-/** @typedef {import('lit-element').TemplateResult} TemplateResult */
-/** @typedef {import('lit-element').SVGTemplateResult} SVGTemplateResult */
+/** @typedef {import('lit').TemplateResult} TemplateResult */
+/** @typedef {import('lit').SVGTemplateResult} SVGTemplateResult */
 /** @typedef {import('@anypoint-web-components/awc').AnypointListboxElement} AnypointListbox */
 /** @typedef {import('@anypoint-web-components/awc').AnypointIconItemElement} AnypointIconItem */
 /** @typedef {import('./MenuItem').MenuItem} MenuItem */

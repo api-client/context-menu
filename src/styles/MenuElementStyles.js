@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export const MenuElementStyles = css`
 :host {
@@ -8,8 +8,9 @@ export const MenuElementStyles = css`
   color: var(--context-menu-color, #000);
   user-select: none;
   z-index: 100;
-  --anypoint-item-icon-width: 32px;
-  --anypoint-item-min-height: 32px;
+  --anypoint-item-icon-width: 40px;
+  --anypoint-item-min-height: 40px;
+  --anypoint-item-padding: 0px 24px;
 }
 
 .listbox {
