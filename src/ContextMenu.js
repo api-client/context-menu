@@ -9,6 +9,7 @@ import { genId } from './IdGenerator.js';
 /** @typedef {import('./types').CommandBase} CommandBase */
 /** @typedef {import('./types').MenuOptions} MenuOptions */
 /** @typedef {import('./types').Point} Point */
+/** @typedef {import('./types').ContextMenuExecuteDetail} ContextMenuExecuteDetail */
 
 export const contextHandler = Symbol('contextHandler');
 export const clickHandler = Symbol('clickHandler');
@@ -409,17 +410,18 @@ export class ContextMenu extends EventTarget {
     } else if (cmd.execute) {
       cmd.trigger(cmd, store, target, workspace, point, customData);
     } else {
+      const detail = /** @type ContextMenuExecuteDetail */ ({
+        id: cmd.id,
+        store,
+        target, 
+        root: workspace, 
+        clickPoint: point,
+        customData,
+        selectedSubcommand: item,
+        item: cmd,
+      });
       this.dispatchEvent(new CustomEvent('execute', {
-        detail: {
-          id: cmd.id,
-          store,
-          target, 
-          root: workspace, 
-          clickPoint: point,
-          customData,
-          selectedSubcommand: item,
-          item: cmd,
-        }
+        detail,
       }));
     }
   }

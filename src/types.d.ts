@@ -204,3 +204,40 @@ export interface CustomMenuEventDetail {
    */
   customData?: unknown;
 }
+
+export interface ContextMenuExecuteDetail {
+  /**
+   * The id of the executed command.
+   * When not set by the command definition this is auto generated
+   * when registering a command.
+   */
+  id: string;
+  /**
+   * The object store to be used to store menu item data.
+   */
+  store: Map<string, any>;
+  /**
+   * An instance of the element that triggered the command.
+   */
+  target: HTMLElement | SVGElement;
+  /**
+   * The element with which this context menu was initialized with.
+   */
+  root: HTMLElement;
+  /**
+   * Any data passed to the command through a custom event.
+   */
+  customData?: unknown;
+  /**
+   * The point of the original click.
+   */
+  clickPoint: Point;
+  /**
+   * The index of the clicked subcommand
+   */
+  selectedSubcommand?: number;
+  /**
+   * The selected me nu item.
+   */
+  item: MenuItem;
+}
