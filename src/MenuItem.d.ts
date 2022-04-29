@@ -1,4 +1,4 @@
-import { SVGTemplateResult } from 'lit-html';
+import { SVGTemplateResult } from 'lit';
 import { CommandBase, ContextMenuCommand, Point, VisibleOptions, EnabledOptions, ExecuteOptions, CheckedOptions } from './types';
 
 /**

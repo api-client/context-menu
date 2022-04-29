@@ -343,8 +343,9 @@ describe('ContextMenu', () => {
       await nextFrame();
       const menuElement = workspace.querySelector('context-menu');
       const items = menuElement.shadowRoot.querySelectorAll('anypoint-icon-item');
-      const item = items[items.length - 1];
+      const item = /** @type HTMLElement */ (items[items.length - 1]);
       item.click();
+      await nextFrame();
       assert.deepEqual(args.customData, customData);
     });
 
@@ -374,8 +375,9 @@ describe('ContextMenu', () => {
       await nextFrame();
       const menuElement = workspace.querySelector('context-menu');
       const items = menuElement.shadowRoot.querySelectorAll('anypoint-icon-item');
-      const item = items[3];
+      const item = /** @type HTMLElement */ (items[3]);
       item.click();
+      await nextFrame();
       assert.deepEqual(args.customData, customData);
     });
   });
@@ -534,8 +536,9 @@ describe('ContextMenu', () => {
       // for the menu to render
       await nextFrame();
       const sub = menu.currentMenu.shadowRoot.querySelector('context-menu');
-      const subItem = sub.shadowRoot.querySelector(`anypoint-icon-item`);
+      const subItem = /** @type HTMLElement */ (sub.shadowRoot.querySelector(`anypoint-icon-item`));
       subItem.click();
+      await nextFrame();
       assert.isTrue(spy.calledOnce, 'The event is dispatched');
       const { detail } = spy.args[0][0];
       assert.equal(detail.id, '0.75rem', 'has the id');
@@ -574,8 +577,9 @@ describe('ContextMenu', () => {
       // for the menu to render
       await nextFrame();
       const sub = menu.currentMenu.shadowRoot.querySelector('context-menu');
-      const subItem = sub.shadowRoot.querySelector(`anypoint-icon-item`);
+      const subItem = /** @type HTMLElement */ (sub.shadowRoot.querySelector(`anypoint-icon-item`));
       subItem.click();
+      await nextFrame();
       assert.isTrue(called, 'The function was called');
       assert.equal(context.id, 'font-size', 'has the id');
       assert.isTrue(context.store === menu.store, 'has the store');
@@ -607,8 +611,9 @@ describe('ContextMenu', () => {
       }));
       await nextFrame();
       const instance = menu.currentMenu;
-      const item = instance.shadowRoot.querySelector('anypoint-icon-item');
+      const item = /** @type HTMLElement */ (instance.shadowRoot.querySelector('anypoint-icon-item'));
       item.click();
+      await nextFrame();
       assert.isTrue(spy.called, 'the event is dispatched');
     });
   });

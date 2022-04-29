@@ -1,5 +1,5 @@
-import { LitElement, TemplateResult, CSSResult, SVGTemplateResult } from 'lit';
-import { AnypointIconItemElement, OverlayMixin } from '@anypoint-web-components/awc';
+import { TemplateResult, CSSResult, SVGTemplateResult } from 'lit';
+import { AnypointIconItemElement, OverlayElement } from '@anypoint-web-components/awc';
 import { MenuItem } from './MenuItem';
 
 export declare const menuItemTemplate: unique symbol;
@@ -27,7 +27,7 @@ export declare const labelTemplate: unique symbol;
 /**
  * @fires trigger
  */
-export class ContextMenuElement extends OverlayMixin(LitElement) {
+export class ContextMenuElement extends OverlayElement {
   static get styles(): CSSResult;
 
   /** 

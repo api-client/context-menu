@@ -1,6 +1,6 @@
 {
   "name": "@api-client/context-menu",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Accessible and highly customizable context menu for web apps",
   "license": "cc-by-4.0",
   "main": "index.js",
@@ -28,7 +28,7 @@
     "email": "pawel.psztyc@gmail.com"
   },
   "dependencies": {
-    "@anypoint-web-components/awc": "^2.0.9",
+    "@anypoint-web-components/awc": "^3.0.1",
     "lit": "^2.2.2"
   },
   "devDependencies": {

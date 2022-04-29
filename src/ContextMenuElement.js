@@ -1,8 +1,8 @@
 /* eslint-disable class-methods-use-this */
-import { LitElement, html } from 'lit';
+import { html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { OverlayMixin } from '@anypoint-web-components/awc';
+import { OverlayElement } from '@anypoint-web-components/awc';
 import '@anypoint-web-components/awc/dist/define/anypoint-listbox.js';
 import '@anypoint-web-components/awc/dist/define/anypoint-icon-item.js';
 import { MenuElementStyles } from './styles/MenuElementStyles.js';
@@ -38,43 +38,41 @@ export const labelTemplate = Symbol('labelTemplate');
 export const radioEntryTemplate = Symbol('radioEntryTemplate');
 export const menuEntryCheckMarkTemplate = Symbol('menuEntryCheckMarkTemplate');
 
-export class ContextMenuElement extends OverlayMixin(LitElement) {
+export class ContextMenuElement extends OverlayElement {
   static get styles() {
     return MenuElementStyles;
   }
 
-  static get properties() {
-    return {
-      /** 
-       * The list of commands to render.
-       */
-      commands: { type: Array },
-      /** 
-       * The commands store.
-       */
-      store: { type: Object },
-      /** 
-       * The menu triggering click target
-       */
-      target: { type: Object }, 
-      /** 
-       * The current workspace
-       */
-      workspace: { type: Object },
-      /** 
-       * Any arbitrary data to pass to the lifecycle functions.
-       */
-      customData: {},
-      /** 
-       * The timeout after which the sub menu become visible or is removed from the menu.
-       */
-      subMenuTimeout: { type: Number },
-      /** 
-       * The id of the parent command, in case when this menu is a sub-menu.
-       */
-      parentCommand: { type: String },
-    };
-  }
+  static properties = {
+    /** 
+     * The list of commands to render.
+     */
+    commands: { type: Array },
+    /** 
+     * The commands store.
+     */
+    store: { type: Object },
+    /** 
+     * The menu triggering click target
+     */
+    target: { type: Object }, 
+    /** 
+     * The current workspace
+     */
+    workspace: { type: Object },
+    /** 
+     * Any arbitrary data to pass to the lifecycle functions.
+     */
+    customData: {},
+    /** 
+     * The timeout after which the sub menu become visible or is removed from the menu.
+     */
+    subMenuTimeout: { type: Number },
+    /** 
+     * The id of the parent command, in case when this menu is a sub-menu.
+     */
+    parentCommand: { type: String },
+  };
 
   constructor() {
     super();

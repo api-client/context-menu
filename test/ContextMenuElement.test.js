@@ -160,11 +160,12 @@ describe('ContextMenuElement', () => {
       assert.equal(item.getAttribute('title'), 'test title');
     });
 
-    it('dispatches the trigger event when selecting an item', () => {
+    it('dispatches the trigger event when selecting an item', async () => {
       const spy = sinon.spy();
       menu.addEventListener('trigger', spy);
       const item = /** @type HTMLElement */ (menu.shadowRoot.querySelector('anypoint-icon-item[data-cmd="t8"]'));
       item.click();
+      await nextFrame();
       assert.isTrue(spy.calledOnce, 'The event is dispatched');
       const { detail } = spy.args[0][0];
       assert.isTrue(detail.command === menu.commands[7], 'has the command');
@@ -373,6 +374,7 @@ describe('ContextMenuElement', () => {
       menu.addEventListener('trigger', spy);
       const item = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item'));
       item.click();
+      await nextFrame();
       assert.isTrue(spy.calledOnce, 'the event is dispatched');
       const { detail } = spy.args[0][0];
       assert.isTrue(detail.command === sub.commands[0], 'passes the command');
@@ -387,6 +389,7 @@ describe('ContextMenuElement', () => {
       menu.addEventListener('trigger', spy);
       const item = /** @type HTMLElement */ (sub.shadowRoot.querySelector('anypoint-icon-item'));
       item.click();
+      await nextFrame();
       const { detail } = spy.args[0][0];
       assert.isTrue(detail.parent === menu.commands[1], 'passes the parent');
     });
@@ -428,12 +431,14 @@ describe('ContextMenuElement', () => {
     it('opens the sub-menu when arrow-right', async () => {
       await nextFrame();
       const list = menu.shadowRoot.querySelector('anypoint-listbox');
+      list.focusNext();
       list.dispatchEvent(new KeyboardEvent('keydown', {
         bubbles: true,
         cancelable: true,
         composed: true,
         code: 'ArrowRight',
       }));
+      await nextFrame();
       const sub = menu.shadowRoot.querySelector('context-menu');
       assert.ok(sub);
     });
