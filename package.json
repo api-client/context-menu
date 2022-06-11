@@ -1,6 +1,6 @@
 {
   "name": "@api-client/context-menu",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Accessible and highly customizable context menu for web apps",
   "license": "cc-by-4.0",
   "main": "index.js",
@@ -35,6 +35,8 @@
     "@babel/core": "^7.15.8",
     "@babel/eslint-parser": "^7.15.8",
     "@babel/plugin-syntax-class-properties": "^7.12.13",
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
     "@open-wc/eslint-config": "^7.0.0",
     "@open-wc/testing": "^3.0.1",
     "@web/dev-server": "^0.1.25",
@@ -43,9 +45,9 @@
     "@web/test-runner-playwright": "^0.8.8",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
-    "sinon": "^13.0.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.1",
+    "sinon": "^14.0.0",
     "typescript": "^4.6.3",
     "typescript-lit-html-plugin": "^0.9.0"
   },
@@ -58,7 +60,8 @@
     "format": "npm run format:eslint",
     "test": "web-test-runner test/**/*.test.js --coverage --node-resolve --playwright --browsers chromium firefox webkit",
     "test:watch": "web-test-runner test/**/*.test.js --node-resolve --watch --playwright --browsers chromium",
-    "gen:wc": "wca analyze \"*.js\" --outFile custom-elements.json"
+    "gen:wc": "wca analyze \"*.js\" --outFile custom-elements.json",
+    "prepare": "husky install"
   },
   "babel": {
     "plugins": [
